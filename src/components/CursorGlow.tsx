@@ -9,10 +9,10 @@ function CursorGlow({
   VELOCITY_DISSIPATION = 2,
   PRESSURE = 0.1,
   PRESSURE_ITERATIONS = 10, // Reduced from 20
-  CURL = 3,
-  SPLAT_RADIUS = 0.08, // Reduced from 0.2 to make it thinner
-  SPLAT_FORCE = 4200,
-  SHADING = true,
+  CURL = 1.5, // Reduced from 3
+  SPLAT_RADIUS = 0.12, // Increased from 0.08 but lower than original 0.2
+  SPLAT_FORCE = 2000, // Reduced from 4200 for a subtler flow
+  SHADING = false, // Disabled shading for a flatter, cleaner look that takes less rendering power
   COLOR_UPDATE_SPEED = 10,
   BACK_COLOR = { r: 0.5, g: 0, b: 0 },
   TRANSPARENT = true
