@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './Header';
 import { CursorGlow } from './CursorGlow';
@@ -7,6 +7,14 @@ import { motion } from 'framer-motion';
 import HomePage from '../pages/HomePage';
 import StartupsPage from '../pages/StartupsPage';
 import GithubPage from '../pages/GithubPage';
+
+const PageLoader = () => (
+  <div style={{
+    width: "100%",
+    height: "100%",
+    background: "#020203"
+  }} />
+);
 
 export function Layout() {
   const location = useLocation();
@@ -38,31 +46,35 @@ export function Layout() {
       <Header activePage={activePage} setActivePage={handleNavigateTab} />
 
       {isMainTabPage ? (
-        <div className="relative w-full">
-          {/* Home Page */}
-          <div
-            className={activePage === 'home' ? 'relative w-full' : 'hidden'}
-          >
-            <HomePage />
-          </div>
+        <Suspense fallback={<PageLoader />}>
+          <div className="relative w-full">
+            {/* Home Page */}
+            <div
+              className={activePage === 'home' ? 'relative w-full' : 'hidden'}
+            >
+              <HomePage />
+            </div>
 
-          {/* Startups Page */}
-          <div
-            className={activePage === 'startups' ? 'relative w-full' : 'hidden'}
-          >
-            <StartupsPage />
-          </div>
+            {/* Startups Page */}
+            <div
+              className={activePage === 'startups' ? 'relative w-full' : 'hidden'}
+            >
+              <StartupsPage />
+            </div>
 
-          {/* Open Source Page */}
-          <div
-            className={activePage === 'opensource' ? 'relative w-full' : 'hidden'}
-          >
-            <GithubPage />
+            {/* Open Source Page */}
+            <div
+              className={activePage === 'opensource' ? 'relative w-full' : 'hidden'}
+            >
+              <GithubPage />
+            </div>
           </div>
-        </div>
+        </Suspense>
       ) : (
         <main>
-          <Outlet />
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
         </main>
       )}
 

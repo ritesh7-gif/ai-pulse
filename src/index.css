@@ -18,19 +18,21 @@
 @layer base {
   html {
     scroll-behavior: auto;
-    background-color: #020203;
+    background: #020203;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
     color: white;
     max-width: 100%;
     overflow-x: hidden;
-    min-height: 100vh;
   }
 
   body {
     @apply bg-bg-dark text-white/90 font-sans antialiased selection:bg-accent-purple/30;
+    background: #020203;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    background-color: #020203;
+    min-height: 100%;
     max-width: 100%;
     overflow-x: hidden;
     position: relative;
@@ -42,8 +44,10 @@
   }
 
   #root {
-    min-height: 100vh;
-    background-color: #020203;
+    background: #020203;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
   }
 }
 
