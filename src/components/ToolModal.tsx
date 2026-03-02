@@ -62,6 +62,14 @@ export const ToolModal = ({ tool, onClose, onRequireLogin = () => { } }: ToolMod
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-2xl bg-[#0A0A0A] border border-white/10 rounded-[32px] overflow-hidden shadow-2xl relative max-h-[90vh] flex flex-col"
             >
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="absolute top-5 right-5 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <X size={18} />
+              </button>
+
               <div className="flex-1 overflow-y-auto scrollbar-hide overscroll-contain p-6 md:p-10">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-8">

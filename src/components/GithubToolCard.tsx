@@ -36,7 +36,7 @@ export const GithubToolCard = ({ tool, onClick }: { tool: GithubTool; onClick?: 
             {tool.stars.toLocaleString()}
           </div>
         </div>
-        
+
         <div className="mb-5">
           <div className="flex items-center gap-2 mb-2">
             <h3 className="text-xl font-display font-bold group-hover:text-white transition-colors leading-tight tracking-tight text-white/90">
