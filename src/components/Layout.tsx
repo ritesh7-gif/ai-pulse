@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, Suspense } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useMemo, Suspense } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './Header';
 import { CursorGlow } from './CursorGlow';
@@ -34,7 +34,7 @@ export function Layout() {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -45,38 +45,32 @@ export function Layout() {
       <CursorGlow />
       <Header activePage={activePage} setActivePage={handleNavigateTab} />
 
-      {isMainTabPage ? (
+      <main className="relative w-full">
         <Suspense fallback={<PageLoader />}>
-          <div className="relative w-full">
+          {/* Main Tab Pages Container (always in DOM, visible only when needed) */}
+          <div className={isMainTabPage ? 'relative w-full' : 'hidden'}>
             {/* Home Page */}
-            <div
-              className={activePage === 'home' ? 'relative w-full' : 'hidden'}
-            >
+            <div className={activePage === 'home' ? 'relative w-full' : 'hidden'}>
               <HomePage />
             </div>
 
             {/* Startups Page */}
-            <div
-              className={activePage === 'startups' ? 'relative w-full' : 'hidden'}
-            >
+            <div className={activePage === 'startups' ? 'relative w-full' : 'hidden'}>
               <StartupsPage />
             </div>
 
             {/* Open Source Page */}
-            <div
-              className={activePage === 'opensource' ? 'relative w-full' : 'hidden'}
-            >
+            <div className={activePage === 'opensource' ? 'relative w-full' : 'hidden'}>
               <GithubPage />
             </div>
           </div>
-        </Suspense>
-      ) : (
-        <main>
-          <Suspense fallback={<PageLoader />}>
+
+          {/* Sub Pages (Profile, Login, etc.) */}
+          {!isMainTabPage && (
             <Outlet />
-          </Suspense>
-        </main>
-      )}
+          )}
+        </Suspense>
+      </main>
 
       <ScrollToTopButton />
     </>
