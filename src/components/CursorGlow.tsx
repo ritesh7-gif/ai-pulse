@@ -2,15 +2,15 @@
 import { useEffect, useRef } from 'react';
 
 function CursorGlow({
-  SIM_RESOLUTION = 128,
-  DYE_RESOLUTION = 1440,
+  SIM_RESOLUTION = 64,  // Reduced from 128
+  DYE_RESOLUTION = 512, // Reduced from 1440
   CAPTURE_RESOLUTION = 512,
   DENSITY_DISSIPATION = 3.5,
   VELOCITY_DISSIPATION = 2,
   PRESSURE = 0.1,
-  PRESSURE_ITERATIONS = 20,
+  PRESSURE_ITERATIONS = 10, // Reduced from 20
   CURL = 3,
-  SPLAT_RADIUS = 0.2,
+  SPLAT_RADIUS = 0.08, // Reduced from 0.2 to make it thinner
   SPLAT_FORCE = 4200,
   SHADING = true,
   COLOR_UPDATE_SPEED = 10,
@@ -23,6 +23,11 @@ function CursorGlow({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Disable on mobile/touch devices for better performance
+    if (window.innerWidth < 768 || ('ontouchstart' in window) || navigator.maxTouchPoints > 0) {
+      return;
+    }
 
     // Track if the effect is still active for cleanup
     let isActive = true;

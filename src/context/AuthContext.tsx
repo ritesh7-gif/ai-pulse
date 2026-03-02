@@ -75,16 +75,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Check existing session on page load
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
+    // Verify session with Supabase servers on page load (getUser() validates JWT, getSession() does not)
+    supabase.auth.getUser().then(({ data: { user }, error }) => {
       if (error) {
-        console.error('[Auth] ❌ getSession error:', error.message);
-      } else if (session?.user) {
-        console.log('[Auth] ✅ Session found on load:', session.user.email);
-        setUser(mapSupabaseUser(session.user));
-        fetchSavedTools(session.user.id);
+        if (process.env.NODE_ENV !== 'production') console.error('[Auth] getUser error:', error.message);
+      }
+      if (user) {
+        setUser(mapSupabaseUser(user));
+        fetchSavedTools(user.id);
       } else {
-        console.log('[Auth] ℹ️ No active session on load.');
         setUser(null);
         setSavedTools([]);
       }
@@ -93,7 +92,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Listen to auth changes (fires after OAuth redirect, login, logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('[Auth] 🔄 Auth state changed:', event, session?.user?.email ?? 'no user');
       if (session?.user) {
         setUser(mapSupabaseUser(session.user));
         fetchSavedTools(session.user.id);
@@ -189,7 +187,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error('[Auth] Error updating saved tool:', error);
       // Revert optimistic update on failure
       setSavedTools(savedTools);
-      alert(`Failed to save tool. Note: If you have not created the 'saved_tools' table in Supabase yet, you must do so first.\nError: ${error.message}`);
+      alert('Failed to save tool. Please try again. Make sure the \'saved_tools\' table exists in Supabase with RLS enabled.');
     }
   };
 

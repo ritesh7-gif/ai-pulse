@@ -241,7 +241,7 @@ export default function HomePage() {
             Tracing the <span className="text-gradient">AI Frontier</span>
           </h2>
           <div className="flex flex-wrap justify-center lg:justify-start gap-3">
-            {["LLM Orchestration", "Edge Intelligence", "Neuromorphic Computing", "Agentic Workflows"].map((tag) => (
+            {["LLM Orchestration", "Edge Intelligence", "Neuromorphic Computing", "Agentic Workflows", "RAG Systems", "Multimodal AI"].map((tag) => (
               <span key={tag} className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-white hover:border-white/20 transition-all cursor-default">
                 {tag}
               </span>

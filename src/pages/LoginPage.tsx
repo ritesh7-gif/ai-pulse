@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Mail, Lock, User, ArrowRight, Github } from 'lucide-react';
+import { Zap, Mail, Lock, User, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
@@ -72,6 +72,15 @@ export default function LoginPage() {
                 />
             </div>
 
+            {/* Back button */}
+            <button
+                onClick={() => navigate('/')}
+                className="absolute top-6 left-6 z-20 flex items-center gap-2 text-white/50 hover:text-white transition-colors p-2 rounded-xl hover:bg-white/5"
+            >
+                <ArrowLeft size={20} />
+                <span className="text-xs font-bold uppercase tracking-widest hidden sm:inline-block">Back</span>
+            </button>
+
             <motion.div
                 initial={{ opacity: 0, y: 24, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -112,8 +121,8 @@ export default function LoginPage() {
                                     animate={{ opacity: 1, height: 'auto' }}
                                     exit={{ opacity: 0, height: 0 }}
                                     className={`mb-6 p-3 rounded-xl border text-xs font-medium text-center ${error.includes('Success')
-                                            ? 'bg-green-500/10 border-green-500/20 text-green-400'
-                                            : 'bg-red-500/10 border-red-500/20 text-red-400'
+                                        ? 'bg-green-500/10 border-green-500/20 text-green-400'
+                                        : 'bg-red-500/10 border-red-500/20 text-red-400'
                                         }`}
                                 >
                                     {error}
