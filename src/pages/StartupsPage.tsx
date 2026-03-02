@@ -249,7 +249,7 @@ export default function StartupsPage() {
             variants={containerVariants}
             initial={false}
             animate={hasAnimated.current ? "visible" : "hidden"}
-            className="flex items-center justify-center gap-1.5 md:gap-2 overflow-hidden"
+            className="flex items-center md:justify-center gap-1.5 md:gap-2 overflow-x-auto scrollbar-hide pb-2 px-4 -mx-4 md:px-0 md:mx-0"
           >
             {CATEGORIES.map((cat, idx) => {
               const Icon = iconMap[cat.icon];

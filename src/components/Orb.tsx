@@ -231,7 +231,7 @@ export default function Orb({
     resize();
 
     let targetHover = 0.1; // Ambient motion by default
-    let lastTime = 0;
+    let lastTime = performance.now();
     let currentRot = 0;
     const rotationSpeed = 0.05; // Much slower rotation
     let isVisible = true;
@@ -273,8 +273,8 @@ export default function Orb({
     container.addEventListener('mouseleave', handleMouseLeave);
 
     let rafId: number;
-    const update = (t: number) => {
-      rafId = requestAnimationFrame(update);
+    const renderLoop = (t: number) => {
+      rafId = requestAnimationFrame(renderLoop);
 
       if (!isVisible) return; // Skip rendering if not visible
 
@@ -294,7 +294,7 @@ export default function Orb({
 
       renderer.render({ scene: mesh });
     };
-    rafId = requestAnimationFrame(update);
+    rafId = requestAnimationFrame(renderLoop);
 
     return () => {
       cancelAnimationFrame(rafId);
@@ -302,8 +302,13 @@ export default function Orb({
       window.removeEventListener('resize', resize);
       container.removeEventListener('mousemove', handleMouseMove);
       container.removeEventListener('mouseleave', handleMouseLeave);
-      container.removeChild(gl.canvas);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+
+      if (container.contains(gl.canvas)) {
+        container.removeChild(gl.canvas);
+      }
+
+      const loseCtx = gl.getExtension('WEBGL_lose_context');
+      if (loseCtx) loseCtx.loseContext();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hue, hoverIntensity, rotateOnHover, forceHoverState, backgroundColor]);
