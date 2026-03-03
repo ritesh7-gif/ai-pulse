@@ -25,6 +25,7 @@ import { SkeletonCard } from "../components/SkeletonCard";
 import { Magnetic } from "../components/Magnetic";
 import { ProductToolModal } from "../components/ProductToolModal";
 import { AuthModal } from "../components/AuthModal";
+import { useAuth } from "../context/AuthContext";
 import { mergeTools, saveToolsToStorage, loadToolsFromStorage } from "../utils/storage";
 
 const iconMap: Record<string, any> = {
@@ -80,6 +81,7 @@ export default function StartupsPage() {
     hasNextPage: false,
     endCursor: null,
   });
+  const { user } = useAuth();
 
   useEffect(() => {
     // Initial load from storage for instant visibility
@@ -149,6 +151,10 @@ export default function StartupsPage() {
   };
 
   const handleLoadMore = () => {
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
     if (pageInfo.hasNextPage && pageInfo.endCursor && !loadingMore) {
       fetchTools(pageInfo.endCursor);
     }

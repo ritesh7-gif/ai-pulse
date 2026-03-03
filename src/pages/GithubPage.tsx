@@ -24,6 +24,7 @@ import { SkeletonCard } from "../components/SkeletonCard";
 import { Magnetic } from "../components/Magnetic";
 import { ToolModal } from "../components/ToolModal";
 import { AuthModal } from "../components/AuthModal";
+import { useAuth } from "../context/AuthContext";
 import { mergeTools, saveToolsToStorage, loadToolsFromStorage } from "../utils/storage";
 
 const iconMap: Record<string, any> = {
@@ -76,6 +77,7 @@ export default function GithubPage() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const hasAnimated = useRef(false);
   const [, forceUpdate] = useState({});
+  const { user } = useAuth();
 
   useEffect(() => {
     // Initial load from storage for instant visibility
@@ -134,6 +136,10 @@ export default function GithubPage() {
   };
 
   const handleLoadMore = () => {
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
     if (!loadingMore && hasMore) {
       setPage(prevPage => {
         const nextPage = prevPage + 1;
